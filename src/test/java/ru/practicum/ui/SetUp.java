@@ -1,4 +1,4 @@
-package ru.practicum.api;
+package ru.practicum.ui;
 
 import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.given;
@@ -9,6 +9,7 @@ public class SetUp {
 
     public static RequestSpecification requestSpec() {
         return given()
-                .baseUri(BASE_URL);
+                .baseUri(BASE_URL)
+                .header("Content-type", "application/json");
     }
 }
