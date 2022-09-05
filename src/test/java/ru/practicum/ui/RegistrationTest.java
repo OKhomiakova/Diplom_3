@@ -40,8 +40,7 @@ public class RegistrationTest {
         getWebDriver().quit();
 
         UserCreds credentials = new UserCreds(user.getEmail(), user.getPassword());
-        Response response = UserTestSteps.loginUser(credentials);
-        accessToken = response.body().jsonPath().getString("accessToken");
+        accessToken = UserTestSteps.loginUser(credentials);
         if (accessToken != null) {
             UserTestSteps.deleteUser(accessToken);
         }
@@ -59,6 +58,8 @@ public class RegistrationTest {
     @DisplayName("Регистрация пользователя с некорректным паролем")
     public void loginUserWithInvalidPassword() {
         registerPage.fillInputsFieldsAndRegister(user.getName(), user.getEmail(), RandomStringUtils.randomAlphanumeric(5));
+        UserCreds credentials = new UserCreds(user.getEmail(), user.getPassword());
+        accessToken = UserTestSteps.loginUser(credentials);
         registerPage.getInvalidPasswordErrorMessage().shouldBe(visible);
         registerPage.getInvalidPasswordErrorText().equals("Некорректный пароль");
     }

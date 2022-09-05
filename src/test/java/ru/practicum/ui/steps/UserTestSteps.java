@@ -25,13 +25,14 @@ public class UserTestSteps {
     }
 
     @Step("Логин пользователя")
-    public static Response loginUser(UserCreds credentials) {
-        Response response = given()
+    public static String loginUser(UserCreds credentials) {
+        return given()
                 .spec(SetUp.requestSpec())
                 .body(credentials)
                 .when()
-                .post(endPointLoginUser);
-        return response;
+                .post(endPointLoginUser)
+                .then()
+                .extract().path("accessToken");
     }
 
     @Step("Изменение данных пользователя")

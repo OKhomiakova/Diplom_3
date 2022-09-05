@@ -44,8 +44,7 @@ public class ProfileTest {
         getWebDriver().quit();
 
         UserCreds credentials = new UserCreds(user.getEmail(), user.getPassword());
-        Response response = ru.practicum.api.steps.UserTestSteps.loginUser(credentials);
-        accessToken = response.body().jsonPath().getString("accessToken");
+        accessToken = UserTestSteps.loginUser(credentials);
         if (accessToken != null) {
             ru.practicum.api.steps.UserTestSteps.deleteUser(accessToken);
         }
