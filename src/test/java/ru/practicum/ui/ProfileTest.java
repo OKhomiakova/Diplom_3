@@ -35,12 +35,8 @@ public class ProfileTest {
 
         registerPage = open(RegisterPage.URL_REGISTER, RegisterPage.class);
 
-        String email = RandomStringUtils.randomAlphanumeric(5) + "@yandex.ru";
-        String password = RandomStringUtils.randomAlphanumeric(6);
-        String name = RandomStringUtils.randomAlphanumeric(6);
-        this.user = new User(email, password, name);
-
-        UserTestSteps.createNewUser(this.user);
+        user = User.generateRandomUser();
+        UserTestSteps.createNewUser(user);
     }
 
     @After

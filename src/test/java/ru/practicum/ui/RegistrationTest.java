@@ -32,10 +32,7 @@ public class RegistrationTest {
         loginPage = page(LoginPage.class);
         registerPage = open(RegisterPage.URL_REGISTER, RegisterPage.class);
 
-        String email = RandomStringUtils.randomAlphanumeric(5) + "@yandex.ru";
-        String password = RandomStringUtils.randomAlphanumeric(6);
-        String name = RandomStringUtils.randomAlphanumeric(6);
-        this.user = new User(email, password, name);
+        user = User.generateRandomUser();
     }
 
     @After

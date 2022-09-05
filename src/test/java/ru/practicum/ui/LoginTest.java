@@ -31,13 +31,8 @@ public class LoginTest {
     @Before
     public void setUp() {
         //Configuration.browser = "firefox"; // запуск тестов в FireFox
-
-        String email = RandomStringUtils.randomAlphanumeric(5) + "@yandex.ru";
-        String password = RandomStringUtils.randomAlphanumeric(6);
-        String name = RandomStringUtils.randomAlphanumeric(6);
-        this.user = new User(email, password, name);
-
-        UserTestSteps.createNewUser(this.user);
+        user = User.generateRandomUser();
+        UserTestSteps.createNewUser(user);
     }
 
     @After
