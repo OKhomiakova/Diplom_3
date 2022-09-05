@@ -1,7 +1,6 @@
 package ru.practicum.api.steps;
 
 import POJO.User;
-import POJO.UserCreds;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import ru.practicum.ui.SetUp;
@@ -25,7 +24,7 @@ public class UserTestSteps {
     }
 
     @Step("Логин пользователя")
-    public static String loginUser(UserCreds credentials) {
+    public static String loginUser(User credentials) {
         return given()
                 .spec(SetUp.requestSpec())
                 .body(credentials)

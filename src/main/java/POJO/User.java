@@ -2,13 +2,15 @@ package POJO;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import javax.annotation.Nullable;
+
 public class User {
     private String email;
     private String password;
     private String name;
 
     // конструктор со всеми параметрами
-    public User(String email, String password, String name) {
+    public User(String email, String password, @Nullable String name) {
         this.email = email;
         this.password = password;
         this.name = name;

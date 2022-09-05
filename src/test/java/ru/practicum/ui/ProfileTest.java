@@ -1,12 +1,8 @@
 package ru.practicum.ui;
 
 import POJO.User;
-import POJO.UserCreds;
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.response.Response;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +39,7 @@ public class ProfileTest {
     public void tearDown() {
         getWebDriver().quit();
 
-        UserCreds credentials = new UserCreds(user.getEmail(), user.getPassword());
+        User credentials = new User(user.getEmail(), user.getPassword(), null);
         accessToken = UserTestSteps.loginUser(credentials);
         if (accessToken != null) {
             ru.practicum.api.steps.UserTestSteps.deleteUser(accessToken);

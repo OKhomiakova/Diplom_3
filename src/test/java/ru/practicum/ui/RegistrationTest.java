@@ -1,10 +1,7 @@
 package ru.practicum.ui;
 
 import POJO.User;
-import POJO.UserCreds;
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -39,7 +36,7 @@ public class RegistrationTest {
     public void tearDown() {
         getWebDriver().quit();
 
-        UserCreds credentials = new UserCreds(user.getEmail(), user.getPassword());
+        User credentials = new User(user.getEmail(), user.getPassword(), null);
         accessToken = UserTestSteps.loginUser(credentials);
         if (accessToken != null) {
             UserTestSteps.deleteUser(accessToken);
@@ -50,7 +47,8 @@ public class RegistrationTest {
     @DisplayName("Успешная регистрацию")
     public void loginUserSuccess() {
         registerPage.fillInputsFieldsAndRegister(user.getName(), user.getEmail(), user.getPassword());
-
+        System.out.println(user.getEmail());
+        System.out.println(user.getPassword());
         assertTrue(loginPage.isLoginPageOpen());
     }
 
@@ -58,10 +56,9 @@ public class RegistrationTest {
     @DisplayName("Регистрация пользователя с некорректным паролем")
     public void loginUserWithInvalidPassword() {
         registerPage.fillInputsFieldsAndRegister(user.getName(), user.getEmail(), RandomStringUtils.randomAlphanumeric(5));
-        UserCreds credentials = new UserCreds(user.getEmail(), user.getPassword());
+        User credentials = new User(user.getEmail(), user.getPassword(), null);
         accessToken = UserTestSteps.loginUser(credentials);
         registerPage.getInvalidPasswordErrorMessage().shouldBe(visible);
         registerPage.getInvalidPasswordErrorText().equals("Некорректный пароль");
     }
-
 }
