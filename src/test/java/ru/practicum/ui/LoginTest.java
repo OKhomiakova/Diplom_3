@@ -9,7 +9,7 @@ import ru.practicum.page.object.ForgotPasswordPage;
 import ru.practicum.page.object.LoginPage;
 import ru.practicum.page.object.MainPage;
 import ru.practicum.page.object.RegisterPage;
-import ru.practicum.api.steps.UserTestSteps;
+import ru.practicum.ui.steps.UserTestSteps;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.page;
@@ -20,15 +20,17 @@ public class LoginTest {
     private RegisterPage registerPage;
     private LoginPage loginPage;
     private MainPage mainPage;
+    private static UserTestSteps userTestSteps;
     private ForgotPasswordPage forgotPasswordPage;
-    private User user;
+    private static User user;
     private String accessToken;
 
     @Before
     public void setUp() {
         //Configuration.browser = "firefox"; // запуск тестов в FireFox
         user = User.generateRandomUser();
-        UserTestSteps.createNewUser(user);
+        userTestSteps = new UserTestSteps();
+        userTestSteps.createNewUser(user);
     }
 
     @After
@@ -36,9 +38,9 @@ public class LoginTest {
         getWebDriver().quit();
 
         User credentials = new User(user.getEmail(), user.getPassword(), null);
-        accessToken = UserTestSteps.loginUser(credentials);
+        accessToken = userTestSteps.loginUser(credentials);
         if (accessToken != null) {
-            ru.practicum.api.steps.UserTestSteps.deleteUser(accessToken);
+            userTestSteps.deleteUser(accessToken);
         }
     }
 

@@ -1,4 +1,4 @@
-package ru.practicum.api.steps;
+package ru.practicum.ui.steps;
 
 import POJO.User;
 import io.qameta.allure.Step;
@@ -9,12 +9,12 @@ import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.SC_ACCEPTED;
 
 public class UserTestSteps {
-    static String endPointCreateUser = "/api/auth/register";
-    static String endPointLoginUser = "/api/auth/login";
-    static String endPointUpdateOrDeleteUser = "/api/auth/user";
+    private final String endPointCreateUser = "/api/auth/register";
+    private final String endPointLoginUser = "/api/auth/login";
+    private final String endPointUpdateOrDeleteUser = "/api/auth/user";
 
     @Step("Создание нового пользователя")
-    public static Response createNewUser(User user) {
+    public Response createNewUser(User user) {
         Response response = given()
                 .spec(SetUp.requestSpec())
                 .body(user)
@@ -24,7 +24,7 @@ public class UserTestSteps {
     }
 
     @Step("Логин пользователя")
-    public static String loginUser(User credentials) {
+    public String loginUser(User credentials) {
         return given()
                 .spec(SetUp.requestSpec())
                 .body(credentials)
@@ -35,7 +35,7 @@ public class UserTestSteps {
     }
 
     @Step("Изменение данных пользователя")
-    public static Response updateUser(User user, String accessToken) {
+    public Response updateUser(User user, String accessToken) {
         Response response = given()
                 .spec(SetUp.requestSpec())
                 .header("authorization", accessToken)
@@ -46,7 +46,7 @@ public class UserTestSteps {
     }
 
     @Step("Удалить пользователя")
-    public static Response deleteUser(String accessToken) {
+    public Response deleteUser(String accessToken) {
         Response response = given()
                 .spec(SetUp.requestSpec())
                 .header("Authorization", accessToken)

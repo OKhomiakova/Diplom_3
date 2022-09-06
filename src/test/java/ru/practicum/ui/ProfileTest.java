@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import ru.practicum.page.object.*;
-import ru.practicum.api.steps.UserTestSteps;
+import ru.practicum.ui.steps.UserTestSteps;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.page;
@@ -22,7 +22,8 @@ public class ProfileTest {
     private MainPage mainPage;
     private ProfilePage profilePage;
     private ForgotPasswordPage forgotPasswordPage;
-    private User user;
+    private static UserTestSteps userTestSteps;
+    private static User user;
     private String accessToken;
 
     @Before
@@ -32,7 +33,8 @@ public class ProfileTest {
         registerPage = open(RegisterPage.URL_REGISTER, RegisterPage.class);
 
         user = User.generateRandomUser();
-        UserTestSteps.createNewUser(user);
+        userTestSteps = new UserTestSteps();
+        userTestSteps.createNewUser(user);
     }
 
     @After
@@ -40,9 +42,9 @@ public class ProfileTest {
         getWebDriver().quit();
 
         User credentials = new User(user.getEmail(), user.getPassword(), null);
-        accessToken = UserTestSteps.loginUser(credentials);
+        accessToken = userTestSteps.loginUser(credentials);
         if (accessToken != null) {
-            ru.practicum.api.steps.UserTestSteps.deleteUser(accessToken);
+            userTestSteps.deleteUser(accessToken);
         }
     }
 

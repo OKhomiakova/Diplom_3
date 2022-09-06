@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.practicum.page.object.LoginPage;
 import ru.practicum.page.object.RegisterPage;
-import ru.practicum.api.steps.UserTestSteps;
+import ru.practicum.ui.steps.UserTestSteps;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.open;
@@ -19,7 +19,8 @@ import static org.junit.Assert.assertTrue;
 public class RegistrationTest {
     private RegisterPage registerPage;
     private LoginPage loginPage;
-    private User user;
+    private static UserTestSteps userTestSteps;
+    private static User user;
     private String accessToken;
 
     @Before
@@ -30,6 +31,7 @@ public class RegistrationTest {
         registerPage = open(RegisterPage.URL_REGISTER, RegisterPage.class);
 
         user = User.generateRandomUser();
+        userTestSteps = new UserTestSteps();
     }
 
     @After
@@ -37,9 +39,9 @@ public class RegistrationTest {
         getWebDriver().quit();
 
         User credentials = new User(user.getEmail(), user.getPassword(), null);
-        accessToken = UserTestSteps.loginUser(credentials);
+        accessToken = userTestSteps.loginUser(credentials);
         if (accessToken != null) {
-            UserTestSteps.deleteUser(accessToken);
+            userTestSteps.deleteUser(accessToken);
         }
     }
 
@@ -47,8 +49,6 @@ public class RegistrationTest {
     @DisplayName("Успешная регистрацию")
     public void loginUserSuccess() {
         registerPage.fillInputsFieldsAndRegister(user.getName(), user.getEmail(), user.getPassword());
-        System.out.println(user.getEmail());
-        System.out.println(user.getPassword());
         assertTrue(loginPage.isLoginPageOpen());
     }
 
@@ -57,7 +57,7 @@ public class RegistrationTest {
     public void loginUserWithInvalidPassword() {
         registerPage.fillInputsFieldsAndRegister(user.getName(), user.getEmail(), RandomStringUtils.randomAlphanumeric(5));
         User credentials = new User(user.getEmail(), user.getPassword(), null);
-        accessToken = UserTestSteps.loginUser(credentials);
+        accessToken = userTestSteps.loginUser(credentials);
         registerPage.getInvalidPasswordErrorMessage().shouldBe(visible);
         registerPage.getInvalidPasswordErrorText().equals("Некорректный пароль");
     }
