@@ -19,8 +19,8 @@ import static org.junit.Assert.assertTrue;
 public class RegistrationTest {
     private RegisterPage registerPage;
     private LoginPage loginPage;
-    private static UserTestSteps userTestSteps;
-    private static User user;
+    private UserTestSteps userTestSteps;
+    private User user;
     private String accessToken;
 
     @Before
@@ -38,8 +38,7 @@ public class RegistrationTest {
     public void tearDown() {
         getWebDriver().quit();
 
-        User credentials = new User(user.getEmail(), user.getPassword(), null);
-        accessToken = userTestSteps.loginUser(credentials);
+        accessToken = userTestSteps.loginUser(user);
         if (accessToken != null) {
             userTestSteps.deleteUser(accessToken);
         }

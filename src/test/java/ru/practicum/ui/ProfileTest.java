@@ -22,8 +22,8 @@ public class ProfileTest {
     private MainPage mainPage;
     private ProfilePage profilePage;
     private ForgotPasswordPage forgotPasswordPage;
-    private static UserTestSteps userTestSteps;
-    private static User user;
+    private UserTestSteps userTestSteps;
+    private User user;
     private String accessToken;
 
     @Before
@@ -35,14 +35,13 @@ public class ProfileTest {
         user = User.generateRandomUser();
         userTestSteps = new UserTestSteps();
         userTestSteps.createNewUser(user);
+        accessToken = userTestSteps.loginUser(user);
     }
 
     @After
     public void tearDown() {
         getWebDriver().quit();
 
-        User credentials = new User(user.getEmail(), user.getPassword(), null);
-        accessToken = userTestSteps.loginUser(credentials);
         if (accessToken != null) {
             userTestSteps.deleteUser(accessToken);
         }
